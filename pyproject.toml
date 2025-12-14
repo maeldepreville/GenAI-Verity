@@ -1,0 +1,15 @@
+[project]
+name = "sandbox"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.7",
+    "pandas>=2.3.3",
+    "plotly>=6.5.0",
+    "pydeck>=0.9.1",
+    "streamlit>=1.52.1",
+    "streamlit-elements>=0.1.0",
+    "streamlit-shadcn-ui>=0.1.19",
+]
