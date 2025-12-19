@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 
 @dataclass
-class OpenAIConfig:
+class GeminiConfig:
     api_key: str
     model: str
     temperature: float
@@ -38,30 +38,38 @@ class Settings:
             return
 
         self._load_env_file()
-        self.openai = self._load_openai_config()
+        # Changed from self.openai to self.gemini
+        self.gemini = self._load_gemini_config()
         self.app = self._load_app_config()
         self._configure_logging()
         self._initialized = True
 
     def _load_env_file(self) -> None:
-        env_path = Path(__file__).parent.parent / '.env'
+        # Robust path finding (current file -> parent -> .env)
+        env_path = Path(__file__).parent / '.env'
+        
+        # Fallback if config is inside a subdirectory like /config/settings.py
+        if not env_path.exists():
+             env_path = Path(__file__).parent.parent / '.env'
 
         if env_path.exists():
             load_dotenv(env_path)
         else:
             logging.warning(f".env file not found at {env_path}")
 
-    def _load_openai_config(self) -> OpenAIConfig:
-        api_key = os.getenv('OPENAI_API_KEY', '')
+    def _load_gemini_config(self) -> GeminiConfig:
+        # Google uses 'GOOGLE_API_KEY' by convention
+        api_key = os.getenv('GOOGLE_API_KEY', '')
 
-        if not api_key or api_key == 'your_openai_api_key_here':
-            raise ValueError("OPENAI_API_KEY not configured in .env file")
+        if not api_key or api_key.startswith('your_'):
+            raise ValueError("GOOGLE_API_KEY not configured in .env file")
 
-        model = os.getenv('OPENAI_MODEL', 'gpt-4o')
-        temperature = float(os.getenv('OPENAI_TEMPERATURE', '0.0'))
-        max_tokens = int(os.getenv('OPENAI_MAX_TOKENS', '4000'))
+        # Default to 1.5-pro for better reasoning in audit tasks
+        model = os.getenv('GEMINI_MODEL', 'gemini-1.5-pro')
+        temperature = float(os.getenv('GEMINI_TEMPERATURE', '0.0'))
+        max_tokens = int(os.getenv('GEMINI_MAX_TOKENS', '8192'))
 
-        return OpenAIConfig(
+        return GeminiConfig(
             api_key=api_key,
             model=model,
             temperature=temperature,

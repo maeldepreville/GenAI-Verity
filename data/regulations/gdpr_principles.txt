@@ -1,0 +1,15 @@
+Personal data must be processed lawfully, fairly, and in a transparent manner in relation
+to the data subject. Data should be collected for specified, explicit, and legitimate purposes
+and not further processed in a manner that is incompatible with those purposes.
+
+Organizations must ensure that personal data is adequate, relevant, and limited to what
+is necessary in relation to the purposes for which it is processed. This principle is often
+referred to as data minimization.
+
+Personal data must be accurate and, where necessary, kept up to date. Data that is inaccurate
+should be erased or rectified without delay.
+
+Storage limitation requires that personal data be kept in a form which permits identification
+of data subjects for no longer than necessary.
+
+Organizations are responsible for demonstrating compliance with these principles.

@@ -1,0 +1,15 @@
+Information security policies provide management direction and support for information security
+in accordance with business requirements and relevant laws and regulations.
+
+Organizations should establish a set of information security policies that are approved by
+management, published, communicated to employees and relevant external parties, and regularly
+reviewed for continued suitability.
+
+The absence of a formally approved information security policy may result in inconsistent
+security practices, lack of accountability, and increased exposure to operational and legal risks.
+
+Security policies should clearly define objectives, responsibilities, and enforcement mechanisms.
+They should also be aligned with the organization's risk management strategy and business goals.
+
+Regular reviews should be conducted to ensure that policies remain effective and relevant in
+response to organizational changes, evolving threats, and regulatory updates.

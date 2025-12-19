@@ -1,0 +1,13 @@
+Access control ensures that access to information and information processing facilities
+is restricted according to business and security requirements.
+
+Organizations should define and implement access control policies based on the principles
+of least privilege and need-to-know. User access rights must be formally authorized,
+periodically reviewed, and revoked when no longer required.
+
+Weak access control mechanisms can lead to unauthorized access, data leakage, and
+privilege escalation. Particular attention should be given to privileged accounts
+and remote access mechanisms.
+
+Authentication mechanisms should be robust, and access rights should reflect job roles
+and responsibilities. Logging and monitoring of access events is recommended.
