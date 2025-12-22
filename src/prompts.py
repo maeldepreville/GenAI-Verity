@@ -1,3 +1,7 @@
+"""
+Defines how the agent should behave
+"""
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
@@ -23,6 +27,7 @@ class PromptContext:
 
 
 class PromptOrchestrator:
+
     def build_system_prompt(self) -> str:
         return (
             "You are an expert compliance analyst. "

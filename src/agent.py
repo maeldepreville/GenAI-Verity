@@ -12,8 +12,10 @@ from src.retriever import retrieve_with_scores
 
 logger = logging.getLogger(__name__)
 
-
 class ComplianceStatus(Enum):
+    """
+    Define the different states of compliance
+    """
     COMPLIANT = "compliant"
     PARTIAL = "partial"
     NON_COMPLIANT = "non_compliant"
@@ -21,12 +23,18 @@ class ComplianceStatus(Enum):
 
 
 class SeverityLevel(Enum):
+    """
+    Ranks how dangerous a failure is
+    """
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
 
 
 class ConfidenceLevel(Enum):
+    """
+    Indicates how sure the agent is about its own answer
+    """
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
@@ -34,6 +42,13 @@ class ConfidenceLevel(Enum):
 
 @dataclass
 class ComplianceFinding:
+    """
+    Holds all the information about a specific check: 
+    - what the rule was, 
+    - the status, the long-form analysis, 
+    - the sources used, 
+    - and the confidence score
+    """
     requirement: str
     status: ComplianceStatus
     analysis: str
@@ -41,9 +56,12 @@ class ComplianceFinding:
     sources: List[str]
     confidence: ConfidenceLevel
     retrieval_notes: str
-
+    
 
 class GeminiClient:  # CHANGED CLASS
+    """
+    Ensure the Gemini-connection
+    """
     def __init__(self):
         settings = get_settings()
         self.api_key = settings.gemini.api_key
@@ -74,6 +92,10 @@ class GeminiClient:  # CHANGED CLASS
 
 
 class ComplianceAgent:
+    """
+    Orchestrates the entire workflow of checking a document and grade it 
+    """
+    
     def __init__(self, strategy: ReasoningStrategy = ReasoningStrategy.CHAIN_OF_THOUGHT):
         self.strategy = strategy
         self.prompt_orchestrator = PromptOrchestrator()

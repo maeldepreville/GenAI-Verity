@@ -1,3 +1,7 @@
+"""
+Defining the Audit Engine: it executes the full audit process
+"""
+
 from dataclasses import dataclass
 from typing import List
 

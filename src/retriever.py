@@ -1,3 +1,8 @@
+"""
+The Search engine : it loads the saved FAISS index and provides functions to 
+find the most relevant regulatory paragraphs based on a specific query.
+"""
+
 from pathlib import Path
 from typing import List
 

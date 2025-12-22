@@ -1,3 +1,9 @@
+"""
+This script takes .txt files of regulations, breaks them into 1,000-character chunks, 
+and converts them into mathematical vectors using Google's text-embedding-004 model. 
+It then saves these vectors into the FAISS index you asked about earlier.
+"""
+
 import time
 import logging
 from pathlib import Path
