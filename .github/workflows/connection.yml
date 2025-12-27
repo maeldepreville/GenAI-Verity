@@ -1,0 +1,24 @@
+name: Test AWS Connection
+
+on:
+  workflow_dispatch: # Permet de lancer le test manuellement depuis l'onglet "Actions"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::073184925698:role/role-g1-mg01
+          aws-region: eu-north-1
+
+      - name: Verify Identity
+        run: aws sts get-caller-identity
