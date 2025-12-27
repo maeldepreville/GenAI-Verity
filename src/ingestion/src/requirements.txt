@@ -1,0 +1,6 @@
+opensearch-py
+requests-aws4auth
+langchain-text-splitters
+langchain-google-genai
+boto3
+requests-aws4auth

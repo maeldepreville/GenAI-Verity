@@ -1,9 +1,0 @@
-Basic cyber hygiene measures are essential for reducing exposure to common cyber threats.
-Organizations should implement strong authentication, control administrative privileges,
-regularly update systems, and ensure secure configuration of information systems.
-
-User awareness and training play a crucial role in preventing security incidents.
-Employees should be informed of security policies and best practices.
-
-Logging, monitoring, and incident response procedures are necessary to detect and manage
-security events effectively.

@@ -1,0 +1,5 @@
+# Ingestion déjà deployé
+src/ingestion/
+
+# GitHub Action
+.github
