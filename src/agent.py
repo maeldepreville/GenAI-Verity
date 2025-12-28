@@ -9,6 +9,10 @@ from config.settings import get_settings
 from src.prompts import Framework, PromptContext, PromptOrchestrator, ReasoningStrategy
 from src.retriever import retrieve_with_scores
 
+#AWS
+import boto3
+from langchain_aws import ChatBedrock
+
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +60,38 @@ class ComplianceFinding:
     sources: List[str]
     confidence: ConfidenceLevel
     retrieval_notes: str
-    
+
+
+class BedrockClient:
+    """
+    Assure la connexion à Amazon Bedrock
+    """
+    def __init__(self):
+        settings = get_settings()
+        aws = settings._aws_credentials()
+        
+        bedrock_runtime = boto3.client(
+            service_name="bedrock-runtime",
+            region_name=aws.region
+        )
+
+        self.llm = ChatBedrock(
+            model_id="anthropic.claude-3-7-sonnet-20250219-v1:0",
+            client=bedrock_runtime,
+            model_kwargs={
+                "temperature": 0.0,
+                "max_tokens": 2048
+            }
+        )
+
+    def complete(self, system_prompt: str, user_prompt: str) -> str:
+        try:
+            full_prompt = f"{system_prompt}\n\n{user_prompt}" # Combinnaise pour Claude (plus simple )
+            response = self.llm.invoke(full_prompt)
+            return response.content
+        except Exception as e:
+            logger.error(f"Bedrock API Error: {e}")
+            return "Error: Could not retrieve analysis from Bedrock."    
 
 class GeminiClient:  # CHANGED CLASS
     """

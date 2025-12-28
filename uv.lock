@@ -1327,6 +1327,21 @@ wheels = [
 ]
 
 [[package]]
+name = "langchain-aws"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "boto3" },
+    { name = "langchain-core" },
+    { name = "numpy" },
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a6/6f/3e9b01e2f695b1c51539cd988da86a0e8adbb4abab41d9ed0f180b1923f6/langchain_aws-1.1.1.tar.gz", hash = "sha256:7835213de92a6d79af3778ec37d622812519e632ad6be8226d8f1f4d95a24cba", size = 407630, upload-time = "2025-12-24T06:50:05.576Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/66/cb/2d5e390e9682175df004276d21b2600150f27eebc612df605959d5e75162/langchain_aws-1.1.1-py3-none-any.whl", hash = "sha256:a278de3d86349c605e0a8bd8e2eb1575bb13c2c1a6c858749fd7dcd7844a67e3", size = 153545, upload-time = "2025-12-24T06:50:04.69Z" },
+]
+
+[[package]]
 name = "langchain-classic"
 version = "1.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3403,6 +3418,7 @@ dependencies = [
     { name = "faiss-cpu" },
     { name = "google-generativeai" },
     { name = "langchain" },
+    { name = "langchain-aws" },
     { name = "langchain-community" },
     { name = "langchain-google-genai" },
     { name = "langchain-openai" },
@@ -3431,6 +3447,7 @@ requires-dist = [
     { name = "faiss-cpu", specifier = ">=1.13.1" },
     { name = "google-generativeai", specifier = ">=0.8.6" },
     { name = "langchain", specifier = ">=1.2.0" },
+    { name = "langchain-aws", specifier = ">=1.1.1" },
     { name = "langchain-community", specifier = ">=0.4.1" },
     { name = "langchain-google-genai", specifier = ">=4.1.2" },
     { name = "langchain-openai", specifier = ">=1.1.5" },
