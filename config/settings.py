@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+from requests_aws4auth import AWS4Auth
+import boto3
 from dotenv import load_dotenv
 
 
@@ -23,6 +25,13 @@ class AppConfig:
     chunk_size: int
     chunk_overlap: int
 
+@dataclass
+class AWSConfig :
+    aws_auth : AWS4Auth
+    region: str
+    service: str
+    opsearch_endpoint : str
+    index_name : str
 
 class Settings:
     _instance: Optional['Settings'] = None
@@ -57,6 +66,33 @@ class Settings:
         else:
             logging.warning(f".env file not found at {env_path}")
 
+    def _aws_credentials(self) -> AWSConfig:
+        
+        region = str(os.getenv('AWS_REGION', 'eu-north-1'))
+        service = str(os.getenv('AWS_SERVICE', 'aoss'))
+        
+        credentials = boto3.Session().get_credentials()
+        frozen_creds = credentials.get_frozen_credentials()
+        
+        awsauth = AWS4Auth(
+            frozen_creds.access_key, 
+            frozen_creds.secret_key, 
+            region, 
+            service, 
+            session_token=frozen_creds.token
+        )
+        
+        return AWSConfig(
+            
+            aws_auth = awsauth,
+            region = region,
+            service = service,
+            opsearch_endpoint = str(os.getenv('OPENSEARCH_ENDPOINT', 'https://shiwgcebosoddurpv2be.eu-north-1.aoss.amazonaws.com')),
+            index_name = str(os.getenv('INDEX_NAME', 'index-gemini'))
+            
+        )
+        
+    
     def _load_gemini_config(self) -> GeminiConfig:
         # Google uses 'GOOGLE_API_KEY' by convention
         api_key = os.getenv('GOOGLE_API_KEY', '')

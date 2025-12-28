@@ -7,26 +7,50 @@ from pathlib import Path
 from typing import List
 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import OpenSearchVectorSearch
 from langchain_core.documents import Document
 from config.settings import get_settings
+import logging
 
-VECTOR_STORE_DIR = Path("data/vector_store/faiss_index")
+# AWS
+from requests_aws4auth import AWS4Auth
+from opensearchpy import RequestsHttpConnection
+import boto3
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def load_vector_store():
     """
-    Load the persisted FAISS vector store from disk.
+    Load the persisted ECR vector store from AWS.
     """
-    _ = get_settings()
+    logger.info("Initialisation du Vector Store OpenSearch...")
+    settings = get_settings()
+    logger.info("Starting with AWS Credentials loading...")
+    aws = settings._aws_credentials()
     
-    # MUST MATCH ingestion.py model
+    
+    # MUST MATCH ingestion.py model size of [768]
     embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
     
-    return FAISS.load_local(
-        VECTOR_STORE_DIR,
-        embeddings,
-        allow_dangerous_deserialization=True,
-    )
+    try:
+        docsearch = OpenSearchVectorSearch(
+            opensearch_url=aws.opsearch_endpoint,
+            index_name=aws.index_name,
+            embedding_function=embeddings,
+            http_auth=aws.aws_auth,
+            use_ssl=True,
+            verify_certs=True,
+            connection_class=RequestsHttpConnection,
+            vector_field="vector_field",
+            text_field="text",
+            timeout=120
+        )
+        logger.info("Client OpenSearch instancié avec succès !")
+        return docsearch
+    except Exception as e:
+        logger.error(f"Impossible de créer le client OpenSearch : {e}")
+        raise
 
 def retrieve(vectorstore, query: str, k: int = 4) -> List[Document]:
     return vectorstore.similarity_search(query, k=k)

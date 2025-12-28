@@ -1,0 +1,21 @@
+{
+  "settings": {
+    "index.knn": true
+  },
+  "mappings": {
+    "properties": {
+      "vector_field": {
+        "type": "knn_vector",
+        "dimension": 768,
+        "method": {
+          "name": "hnsw",
+          "engine": "faiss",
+          "space_type": "l2"
+        }
+      },
+      "text": {
+        "type": "text"
+      }
+    }
+  }
+}

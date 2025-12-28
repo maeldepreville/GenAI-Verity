@@ -161,10 +161,9 @@ def lambda_handler(event, context):
             for j, (chunk_text, vec) in enumerate(zip(batch_chunks, vectors)):
                 chunk_id = i + j
 
-                # --- IMPORTANT: use your index field names ---
                 doc = {
-                    "_id": f"{bucket}/{key}#{chunk_id}",  # idempotent on retries
-                    "embedding": vec,                   
+                    "_id": f"{bucket}/{key}#{chunk_id}",
+                    "vector_field": vec,  
                     "text": chunk_text,
                     "metadata": {
                         "source": f"s3://{bucket}/{key}",

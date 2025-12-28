@@ -3,3 +3,10 @@ src/ingestion/
 
 # GitHub Action
 .github
+
+# Verity EGG
+Verity.egg-info
+
+#Venv
+.venv
+

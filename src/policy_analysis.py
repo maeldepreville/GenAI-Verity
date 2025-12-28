@@ -4,6 +4,7 @@ Defining the Audit Engine: it executes the full audit process
 
 from dataclasses import dataclass
 from typing import List
+import time
 
 from src.agent import ComplianceAgent, ComplianceFinding
 from src.prompts import Framework, ReasoningStrategy
@@ -89,6 +90,7 @@ def analyze_policy(
                 policy_excerpt=section,
                 framework=framework,
             )
+            time.sleep(12) # Avoid exceeding of LLM
             findings.append(finding)
 
     compliant = sum(1 for f in findings if f.status.name == "COMPLIANT")
