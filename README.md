@@ -103,3 +103,21 @@ It does **not** replace legal or regulatory expertise.
 - Risk and gap analysis
 - Policy review and improvement
 - AI-assisted audit workflows
+
+---
+
+## Docker Deployment
+
+The application can be deployed using Docker:
+
+```bash
+# Build the Docker image
+docker build -t genai-verity .
+
+# Run the container
+docker run -d -p 8501:8501 --name genai-verity-app genai-verity
+
+# Access the application at http://localhost:8501
+```
+
+Tested and validated by - December 2025
