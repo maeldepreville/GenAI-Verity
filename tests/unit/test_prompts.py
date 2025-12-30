@@ -108,9 +108,7 @@ def test_build_complete_prompt_returns_tuple() -> None:
     )
 
     orchestrator = PromptOrchestrator()
-    system_prompt, analysis_prompt = orchestrator.build_complete_prompt(
-        context
-    )
+    system_prompt, analysis_prompt = orchestrator.build_complete_prompt(context)
 
     assert isinstance(system_prompt, str)
     assert isinstance(analysis_prompt, str)

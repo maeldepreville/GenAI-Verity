@@ -51,7 +51,7 @@ def test_build_vector_store_no_files(
 @patch("pathlib.Path.glob")
 @patch("pathlib.Path.exists", return_value=True)
 @patch("src.ingestion.get_settings")
-def test_build_vector_store_happy_path(     # noqa: PLR0913
+def test_build_vector_store_happy_path(  # noqa: PLR0913
     mock_get_settings: MagicMock,
     mock_exists: MagicMock,
     mock_glob: MagicMock,

@@ -28,7 +28,6 @@ RUN uv sync --frozen --no-dev
 # -------------------------
 COPY src/ ./src/
 COPY config/ ./config/
-COPY ui/ ./ui/
 COPY app.py ./
 
 # -------------------------
