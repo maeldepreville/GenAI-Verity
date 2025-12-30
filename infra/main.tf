@@ -83,8 +83,10 @@ resource "aws_opensearchserverless_access_policy" "data_policy" {
   ])
 }
 
+#-----------------------------
+#            S3
+#-----------------------------
 
-# S3
 
 resource "aws_s3_bucket" "module_ingestion" {
   bucket = var.bucket_name
@@ -101,7 +103,10 @@ resource "aws_s3_bucket_public_access_block" "regulations_access" {
   restrict_public_buckets = true
 }
 
-# Lambda
+
+#-----------------------------
+#           Lambda
+#-----------------------------
 
 # Fonction Lambda pour l'ingestion
 
@@ -152,8 +157,43 @@ resource "aws_s3_bucket_notification" "trigger_lambda" {
 }
 
 #-----------------------------
+#           ECS
+#-----------------------------
+
+# Cluster
+resource "aws_ecs_cluster" "ecs_cluster" {
+  name = "cluster_g1-mg01"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+}
+
+#-----------------------------
 #           IAM
 #-----------------------------
+
+# Rôle IAM ECS
+resource "aws_iam_role" "iam_ecs" {
+  name = "AWSServiceRoleForECS"
+  path = "/aws-service-role/"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+        {
+            Action: "sts:AssumeRole"
+            Effect: "Allow"
+            Principal: {
+                Service: "ecs.amazonaws.com"
+            }
+        }
+    ]
+  })
+
+}
+
 
 # Rôle IAM de Lambda - Trust Policy
 resource "aws_iam_role" "iam_lambda" {
