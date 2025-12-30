@@ -17,6 +17,55 @@ The pipeline follows four main stages:
 
 ---
 
+## Project structure
+
+This document lists the repository structure from the project root (complete snapshot of files and folders currently present).
+
+```
+Verity/
+├─ .gitignore
+├─ .dockerignore
+├─ .python-version
+├─ README.md
+├─ pyproject.toml
+├─ app.py
+├─ uv.lock
+├─ infra/
+│  ├─ .terraform.lock.hcl
+│  ├─ main.tf
+│  └─ variables.tf
+├─ docker/
+│  └─ Dockerfile
+├─ config/
+│  ├─ __init__.py
+│  ├─ index-gemini.json
+│  ├─ requirements.py
+│  └─ settings.py
+├─ src/
+│  ├─ __init__.py
+│  ├─ agent.py
+│  ├─ ingestion.py
+│  ├─ policy_analysis.py
+│  ├─ prompts.py
+│  ├─ retriever.py
+│  └─ ui/
+│     ├─ __init__.py
+│     ├─ components.py
+│     └─ styles.py
+├─ services/
+│  └─ ingestion/
+│     ├─ Dockerfile
+│     └─ src/
+│        ├─ lambda_function.py
+│        └─ requirements.txt
+└─ .github/
+   └─ workflows/
+      ├─ connection.yml
+      └─ aws.yml
+```
+
+---
+
 ## Core Modules
 
 ### `ingestion.py`

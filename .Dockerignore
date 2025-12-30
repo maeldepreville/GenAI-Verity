@@ -1,12 +1,34 @@
-# Ingestion déjà deployé
-src/ingestion/
+# Git
+.git
+.gitignore
 
-# GitHub Action
-.github
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Verity EGG
-Verity.egg-info
-
-#Venv
+# Virtual env
 .venv
 
+# Tests & coverage
+tests/
+htmlcov/
+.coverage
+
+# Terraform
+infra/
+.terraform/
+.terraform.lock.hcl
+
+# CI / GitHub
+.github/
+
+# Local config
+.env
+.env.*
+
+# Build artifacts
+*.egg-info
+dist/
+build/

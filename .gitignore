@@ -1,5 +1,8 @@
 # Python-generated files
 __pycache__/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
 *.py[oc]
 build/
 dist/
@@ -11,6 +14,9 @@ wheels/
 
 # Environment
 .env
+
+# Coverage
+.coverage
 
 # Terraform
 terraform.tfstate

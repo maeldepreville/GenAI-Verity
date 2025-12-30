@@ -1,41 +1,72 @@
 [project]
-name = "Verity"
+name = "verity"
 version = "0.1.0"
 description = "AI Compliance Assistant"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
+
 dependencies = [
     "langchain>=1.2.0",
     "langchain-community>=0.4.1",
-    "langchain-openai>=1.1.5",
     "langchain-text-splitters>=1.1.0",
-    "matplotlib>=3.10.7",
-    "pandas>=2.3.3",
-    "plotly>=6.5.0",
-    "pydeck>=0.9.1",
-    "streamlit>=1.52.1",
-    "streamlit-elements>=0.1.0",
-    "streamlit-shadcn-ui>=0.1.19",
-    "pypdf>=3.17.0",
-    "python-docx>=1.1.0",
-    "python-dotenv>=1.0.0",
-    "openai>=1.0.0",
-    "tiktoken>=0.5.0",
-    "pdfplumber>=0.11.0",
-    "chardet>=5.2.0",
-    "google-generativeai>=0.8.6",
-    "langchain-google-genai>=4.1.2",
-    "faiss-cpu>=1.13.1",
-    "requests-aws4auth>=1.3.1",
-    "boto3>=1.42.17",
-    "opensearch-py>=3.1.0",
     "langchain-aws>=1.1.1",
+    "langchain-google-genai>=4.1.2",
+
+    "google-genai>=1.56.0",
+
+    "faiss-cpu>=1.8",
+    "opensearch-py>=2.5",
+    "requests-aws4auth>=1.3",
+    "boto3>=1.34",
+
+    "pandas>=2.0",
+    "matplotlib>=3.8",
+    "plotly>=5.18",
+    "pydeck>=0.9",
+
+    "streamlit>=1.30",
+    "streamlit-elements>=0.1",
+    "streamlit-shadcn-ui>=0.1",
+
+    "pypdf>=3.17",
+    "pdfplumber>=0.11",
+    "python-docx>=1.1",
+    "python-dotenv>=1.0",
+    "chardet>=5.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "mypy",
+    "ruff",
+    "pandas-stubs",
 ]
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*", "config*"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_optional = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "PL"]
+ignore = ["PLR2004"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]

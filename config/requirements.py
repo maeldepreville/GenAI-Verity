@@ -1,6 +1,5 @@
 from src.prompts import Framework
 
-
 ISO27001_REQUIREMENTS = [
     "Information security policies must be formally documented and approved",
     "Access to systems and data must follow the principle of least privilege",

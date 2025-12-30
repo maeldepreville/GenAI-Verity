@@ -1,40 +1,34 @@
 """
-The Search engine : it loads the saved FAISS index and provides functions to 
-find the most relevant regulatory paragraphs based on a specific query.
+Search engine utilities: load the OpenSearch-backed vector store and retrieve
+relevant regulatory documents.
 """
 
-from pathlib import Path
-from typing import List
-
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import OpenSearchVectorSearch
-from langchain_core.documents import Document
-from config.settings import get_settings
 import logging
 
-# AWS
-from requests_aws4auth import AWS4Auth
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from langchain_core.documents import Document
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from opensearchpy import RequestsHttpConnection
-import boto3
 
-logging.basicConfig(level=logging.INFO)
+from config.settings import get_settings
+
 logger = logging.getLogger(__name__)
 
-def load_vector_store():
+
+def load_vector_store() -> OpenSearchVectorSearch:
     """
-    Load the persisted ECR vector store from AWS.
+    Load the persisted OpenSearch vector store from AWS.
     """
-    logger.info("Initialisation du Vector Store OpenSearch...")
+    logger.info("Initializing OpenSearch vector store...")
     settings = get_settings()
-    logger.info("Starting with AWS Credentials loading...")
     aws = settings._aws_credentials()
-    
-    
-    # MUST MATCH ingestion.py model size of [768]
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
-    
+
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/text-embedding-004",
+    )
+
     try:
-        docsearch = OpenSearchVectorSearch(
+        vector_store = OpenSearchVectorSearch(
             opensearch_url=aws.opsearch_endpoint,
             index_name=aws.index_name,
             embedding_function=embeddings,
@@ -44,16 +38,35 @@ def load_vector_store():
             connection_class=RequestsHttpConnection,
             vector_field="vector_field",
             text_field="text",
-            timeout=120
+            timeout=120,
         )
-        logger.info("Client OpenSearch instancié avec succès !")
-        return docsearch
-    except Exception as e:
-        logger.error(f"Impossible de créer le client OpenSearch : {e}")
+        logger.info("OpenSearch vector store initialized successfully.")
+        return vector_store
+    except Exception as exc:  # noqa: BLE001
+        logger.error(
+            "Failed to create OpenSearch vector store: %s",
+            exc,
+        )
         raise
 
-def retrieve(vectorstore, query: str, k: int = 4) -> List[Document]:
+
+def retrieve(
+    vectorstore: OpenSearchVectorSearch,
+    query: str,
+    k: int = 4,
+) -> list[Document]:
+    """
+    Retrieve the top-k most similar documents for a query.
+    """
     return vectorstore.similarity_search(query, k=k)
 
-def retrieve_with_scores(vectorstore, query: str, k: int = 4):
+
+def retrieve_with_scores(
+    vectorstore: OpenSearchVectorSearch,
+    query: str,
+    k: int = 4,
+) -> list[tuple[Document, float]]:
+    """
+    Retrieve the top-k most similar documents along with similarity scores.
+    """
     return vectorstore.similarity_search_with_score(query, k=k)

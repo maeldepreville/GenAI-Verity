@@ -1,20 +1,26 @@
 import streamlit as st
-import time
+
+from src.policy_analysis import analyze_policy
+from src.prompts import ReasoningStrategy
+from src.retriever import load_vector_store
+from src.ui.components import (
+    render_findings_table,
+    render_hero,
+    render_metrics,
+    render_sidebar,
+)
 
 # Internal Modules
-from ui.styles import load_css
-from ui.components import render_sidebar, render_hero, render_metrics, render_findings_table
-from src.retriever import load_vector_store
-from src.prompts import ReasoningStrategy
-from src.policy_analysis import analyze_policy
+from src.ui.styles import load_css
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="Verity | Compliance AI",
     page_icon="🛡️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
+
 
 # --- CACHED RESOURCES ---
 @st.cache_resource
@@ -26,18 +32,19 @@ def get_vector_store():
         st.error(f"Failed to load vector store: {e}")
         return None
 
+
 # --- MAIN APP LOGIC ---
 def main():
     # 1. Load Styles
     load_css()
-    
+
     # 2. Render Sidebar & Get Inputs
     framework, mode_label, uploaded_file = render_sidebar()
-    
+
     # Map friendly mode label to ReasoningStrategy
     strategy = (
-        ReasoningStrategy.SELF_CORRECTION 
-        if mode_label == "Deep Analysis" 
+        ReasoningStrategy.SELF_CORRECTION
+        if mode_label == "Deep Analysis"
         else ReasoningStrategy.CHAIN_OF_THOUGHT
     )
 
@@ -52,9 +59,8 @@ def main():
     else:
         # File Handling
         st.info(f"📂 Document Loaded: **{uploaded_file.name}**")
-        
+
         if st.button("🚀 Run Compliance Audit", type="primary"):
-            
             # A. Read File Content (Basic Text Support)
             try:
                 # Assuming .txt for simplicity based on your snippets.
@@ -65,10 +71,12 @@ def main():
                 return
 
             # B. Analysis Spinner
-            with st.status("🤖 Verity is analyzing compliance...", expanded=True) as status:
+            with st.status(
+                "🤖 Verity is analyzing compliance...", expanded=True
+            ) as status:
                 st.write("Initializing Agent...")
                 vs = get_vector_store()
-                
+
                 if vs:
                     st.write("Retrieving relevant regulations...")
                     # Perform the actual analysis using your backend
@@ -76,25 +84,28 @@ def main():
                         vectorstore=vs,
                         policy_text=policy_text,
                         framework=framework,
-                        strategy=strategy
+                        strategy=strategy,
                     )
-                    status.update(label="Audit Complete!", state="complete", expanded=False)
-                    
+                    status.update(
+                        label="Audit Complete!", state="complete", expanded=False
+                    )
+
                     # Store result in session state to persist
-                    st.session_state['last_audit'] = summary
+                    st.session_state["last_audit"] = summary
                 else:
                     status.update(label="System Error", state="error")
 
         # 5. Display Results (if available in session state)
-        if 'last_audit' in st.session_state:
-            summary = st.session_state['last_audit']
-            
+        if "last_audit" in st.session_state:
+            summary = st.session_state["last_audit"]
+
             st.markdown("### 📊 Executive Summary")
             render_metrics(summary)
-            
+
             st.divider()
-            
+
             render_findings_table(summary.findings)
+
 
 if __name__ == "__main__":
     main()
