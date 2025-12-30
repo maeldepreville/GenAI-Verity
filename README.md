@@ -163,3 +163,16 @@ It does **not** replace legal or regulatory expertise.
 - Risk and gap analysis
 - Policy review and improvement
 - AI-assisted audit workflows
+
+---
+
+## Run
+
+To run it locally:
+```
+pip install uv
+uv sync --all-extras --dev
+streamlit run app.py
+```
+
+Otherwise, check the public IP of the ECS running task in your browser!
