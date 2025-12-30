@@ -25,17 +25,19 @@ This document lists the repository structure from the project root (complete sna
 Verity/
 ├─ .gitignore
 ├─ .dockerignore
+├─ .coveragerc
 ├─ .python-version
 ├─ README.md
 ├─ pyproject.toml
-├─ app.py
 ├─ uv.lock
+├─ Dockerfile
+├─ app.py
 ├─ infra/
 │  ├─ .terraform.lock.hcl
 │  ├─ main.tf
 │  └─ variables.tf
-├─ docker/
-│  └─ Dockerfile
+├─ ecs/
+│  └─ task-definition.json
 ├─ config/
 │  ├─ __init__.py
 │  ├─ index-gemini.json
@@ -58,10 +60,19 @@ Verity/
 │     └─ src/
 │        ├─ lambda_function.py
 │        └─ requirements.txt
+├─ tests/
+│  └─ unit/
+│     ├─ __init__.py
+│     ├─ test_agent.py
+│     ├─ test_ingestion.py
+│     ├─ test_policy_analysis.py
+│     ├─ test_prompts.py
+│     └─ test_retriever.py
 └─ .github/
    └─ workflows/
-      ├─ connection.yml
-      └─ aws.yml
+      ├─ ci.yml
+      ├─ docker-build.yml
+      └─ ecs-deploy.yml
 ```
 
 ---
