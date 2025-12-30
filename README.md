@@ -5,10 +5,10 @@ Ce projet implémente un pipeline RAG (Retrieval-Augmented Generation) hautement
 
 **Le système repose sur une architecture sans serveur (Serverless) pour une efficacité maximale :**
 
-- Stockage Source 📥 : Les documents `.txt` sont déposés dans un bucket Amazon S3
-- Trigger ⚡ : Chaque nouvel upload déclenche automatiquement une fonction `AWS Lambda`
+- 📥 Stockage Source : Les documents `.txt` sont déposés dans un bucket Amazon S3
+- ⚡ Trigger : Chaque nouvel upload déclenche automatiquement une fonction `AWS Lambda`
 - Traitement & IA 🧠 : La Lambda (exécutée via un conteneur Docker sur `ECR`) lit le fichier, découpe le texte (chunking) et génère des embeddings grâce à l'API `Google Gemini Pro`.
-- Base de Données Vectorielle 🔍 : Les vecteurs sont stockés dans une collection `OpenSearch Serverless`, permettant des recherches sémantiques ultra-rapides
+- 🔍 Base de Données Vectorielle : Les vecteurs sont stockés dans une collection `OpenSearch Serverless`, permettant des recherches sémantiques ultra-rapides
 
 🛠️ Stack Technique
 
@@ -27,7 +27,7 @@ Ce projet implémente un pipeline RAG (Retrieval-Augmented Generation) hautement
 - Managed Policies : Utilisation des politiques standards AWS pour S3 Full Access et les logs CloudWatch
 - Data Access Policy : Contrôle d'accès précis au niveau de la collection OpenSearch pour les principaux autorisés
 
-📋 La Force de Vericity
+📋 Les avantages de Vericity
 
 - Zéro Maintenance : Entièrement Serverless, aucune instance EC2 à gérer
 - Automatisation Totale : De l'infrastructure (Terraform) au traitement des données (S3 Trigger)
