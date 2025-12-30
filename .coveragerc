@@ -1,0 +1,12 @@
+[run]
+source = src
+branch = True
+omit =
+    src/ui/*
+    */__init__.py
+    */tests/*
+    */.venv/*
+
+[report]
+show_missing = True
+skip_covered = True
