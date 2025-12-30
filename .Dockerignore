@@ -11,6 +11,9 @@ __pycache__/
 # Virtual env
 .venv
 
+# Ecs config
+ecs/
+
 # Tests & coverage
 tests/
 htmlcov/
