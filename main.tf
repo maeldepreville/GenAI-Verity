@@ -33,7 +33,7 @@ locals {
 
 
 #-----------------------------
-#         RESSOURCES
+#         RESOURCES
 #-----------------------------
 
 # OpenSearch
