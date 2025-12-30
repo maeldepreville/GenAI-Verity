@@ -22,7 +22,7 @@ class DummyDocument:
 
 
 @pytest.fixture()
-def agent() -> ComplianceAgent: # type: ignore
+def agent() -> ComplianceAgent:  # type: ignore
     with patch("src.agent.GeminiClient") as mock_gemini:
         mock_instance = mock_gemini.return_value
         mock_instance.complete.return_value = "Default compliant response"
@@ -50,15 +50,9 @@ def test_infer_status_insufficient(agent: ComplianceAgent) -> None:
 
 
 def test_infer_severity_mapping(agent: ComplianceAgent) -> None:
-    assert agent._infer_severity(
-        ComplianceStatus.NON_COMPLIANT
-    ) is SeverityLevel.HIGH
-    assert agent._infer_severity(
-        ComplianceStatus.PARTIAL
-    ) is SeverityLevel.MEDIUM
-    assert agent._infer_severity(
-        ComplianceStatus.COMPLIANT
-    ) is SeverityLevel.LOW
+    assert agent._infer_severity(ComplianceStatus.NON_COMPLIANT) is SeverityLevel.HIGH
+    assert agent._infer_severity(ComplianceStatus.PARTIAL) is SeverityLevel.MEDIUM
+    assert agent._infer_severity(ComplianceStatus.COMPLIANT) is SeverityLevel.LOW
 
 
 # ---------------------------------------------------------------------

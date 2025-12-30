@@ -18,6 +18,7 @@ from src.retriever import retrieve_with_scores
 
 logger = logging.getLogger(__name__)
 
+
 class ComplianceStatus(Enum):
     """Define the different states of compliance."""
 
