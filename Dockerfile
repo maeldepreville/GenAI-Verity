@@ -21,7 +21,7 @@ COPY pyproject.toml uv.lock ./
 # -------------------------
 # Install dependencies (locked, prod-only)
 # -------------------------
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 # -------------------------
 # Copy application code
