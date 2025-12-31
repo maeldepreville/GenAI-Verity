@@ -21,8 +21,8 @@ jobs:
       IMAGE_TAG: ${{ github.sha }}
 
       CLUSTER_NAME: cluster_g1-mg01
-      SERVICE_NAME: ecs_task_g1-mg01-verity
-      CONTAINER_NAME: verity
+      SERVICE_NAME: ecs_service_g1-mg01_verity
+      CONTAINER_NAME: container_verity
 
     steps:
       - name: Checkout repository

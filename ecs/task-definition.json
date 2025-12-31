@@ -1,13 +1,13 @@
 {
-  "family": "verity-task",
+  "family": "ecs_task_g1-mg01_verity",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::073184925698:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::073184925698:role/ecsTaskExecutionRoleV2",
   "containerDefinitions": [
     {
-      "name": "verity",
+      "name": "container_verity",
       "image": "placeholder",
       "essential": true,
       "portMappings": [
