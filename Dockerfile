@@ -9,11 +9,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # -------------------------
-# Create user EARLY so we can use it for permissions later
-# -------------------------
-RUN useradd -m appuser
-
-# -------------------------
 # Install uv
 # -------------------------
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
@@ -21,7 +16,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 # -------------------------
 # Copy dependency metadata
 # -------------------------
-COPY --chown=appuser:appuser pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock ./
 
 # -------------------------
 # Install dependencies (locked, prod-only)
@@ -29,13 +24,12 @@ COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project
 
 # -------------------------
-# Copy application code WITH OWNERSHIP
+# Copy application code
 # -------------------------
-COPY --chown=appuser:appuser src/ ./src/
-COPY --chown=appuser:appuser config/ ./config/
-COPY --chown=appuser:appuser app.py ./
-
-COPY --chown=appuser:appuser README.md ./
+COPY src/ ./src/
+COPY config/ ./config/
+COPY app.py ./
+COPY README.md ./
 
 # -------------------------
 # Install the project itself
@@ -43,14 +37,9 @@ COPY --chown=appuser:appuser README.md ./
 RUN uv sync --frozen --no-dev
 
 # -------------------------
-# Security: non-root user
-# -------------------------
-USER appuser
-
-# -------------------------
 # Streamlit config
 # -------------------------
 EXPOSE 8501
 
-
+# Run as default root user
 CMD ["uv", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
